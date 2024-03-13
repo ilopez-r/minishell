@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printstr.c                                      :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/06 13:18:01 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/03/13 12:13:42 by ilopez-r         ###   ########.fr       */
+/*   Created: 2024/03/13 14:21:29 by ilopez-r          #+#    #+#             */
+/*   Updated: 2024/03/13 16:40:30 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
+# include "../libftc/libft.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
-int	ft_printstr(char *str)
+typedef struct s_data
 {
-	int	i;
+	char	*line;
+	char	**path;
+}	t_data;
 
-	i = 0;
-	if (str == 0)
-		str = "(null)";
-	while (str[i] != '\0')
-	{
-		ft_printchar(str[i]);
-		i++;
-	}
-	return (i);
-}
+int		main(int argc, char **argv, char **env);
+int		prompt(t_data *data);
+void	piti_shell(void);
+void	cigarrette(void);
+int		split_path(char **path, t_data *data);
+
+#endif

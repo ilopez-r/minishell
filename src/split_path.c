@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printstr.c                                      :+:      :+:    :+:   */
+/*   split_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/06 13:18:01 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/03/13 12:13:42 by ilopez-r         ###   ########.fr       */
+/*   Created: 2024/03/13 16:23:50 by ilopez-r          #+#    #+#             */
+/*   Updated: 2024/03/13 16:23:59 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_printstr(char *str)
+int	split_path(char **path, t_data *data)
 {
-	int	i;
-
-	i = 0;
-	if (str == 0)
-		str = "(null)";
-	while (str[i] != '\0')
-	{
-		ft_printchar(str[i]);
-		i++;
-	}
-	return (i);
+	while (ft_strncmp(*path, "PATH", 4) != 0)
+		path++;
+	*path = *path + 5;
+	data->path = ft_split (*path, ':');
+	if (data->path == NULL)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

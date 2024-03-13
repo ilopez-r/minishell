@@ -6,11 +6,11 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:49:42 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/03/12 17:36:01 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:50:40 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "minishell.h"
 
 void	piti_shell(void)
 {
@@ -42,9 +42,14 @@ void	cigarrette(void)
 	printf("\n");
 }
 
-int	main(void)
+int	prompt(t_data *data)
 {
-	piti_shell();
-	cigarrette();
-	return (0);
+	char	cur_dir[500];
+	char	*dir;
+
+	dir = ft_strjoin(getcwd(cur_dir, sizeof(cur_dir)), " % ");
+	data->line = readline(dir);
+	if (data->line == NULL)
+		exit (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
