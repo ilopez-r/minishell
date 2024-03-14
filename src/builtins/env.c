@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: alirola- <alirola-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:08:43 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/03/14 16:10:32 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/03/14 17:14:06 by alirola-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ void	get_env(t_data *data, char **env)
 		free_dptr(line);
 	}
 	//poner el índice
+}
+
+void	env_exe(t_data *data)
+{
+	t_env	*aux;
+
+	aux = data->env;
+	while (aux != NULL)
+	{
+		printf("%s%s\n", aux->name, aux->content);
+		aux = aux->next;
+	}
 }
