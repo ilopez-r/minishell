@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:29:34 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/03/13 17:50:03 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/03/14 16:09:56 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,16 @@ static void	init_struct(t_data *data)
 	data->path = NULL;
 }
 
+int	input(t_data *data, char **env)
+{
+	
+}
+
 int	minishell(t_data *data, char **env)
 {
 	piti_shell();
 	cigarrette();
-	if (split_path(env, data) == 1)
-		return (EXIT_FAILURE);
+	get_env (data, env);
 	while (69)
 	{
 		//hacer minitalk;
@@ -36,6 +40,8 @@ int	minishell(t_data *data, char **env)
 			exit(EXIT_FAILURE);
 		if (ft_strncmp(data->line, "\0", 1) >= 1)
 			add_history(data->line);
+		if (input(data, env) == 1)
+			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
