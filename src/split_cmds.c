@@ -1,34 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_path.c                                       :+:      :+:    :+:   */
+/*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/13 16:23:50 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/03/14 16:50:01 by ilopez-r         ###   ########.fr       */
+/*   Created: 2024/03/14 17:35:15 by ilopez-r          #+#    #+#             */
+/*   Updated: 2024/03/15 15:07:41 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	split_path(t_data *data)
+static int	ft_counter(char const *s, char c)
 {
-	t_env	*aux;
+	int	i;
 
-	aux = data->env;
-	//if (data->path != NULL)
-		//free_dptr(data->path);
-	while (aux)
+	i = 0;
+	while (*s != '\0')
 	{
-		if (ft_strncmp(aux->name, "PATH", 4) == 0)
+		if (*s != c)
 		{
-			data->path = ft_split (aux->content, ':');
-			break ;
+			i++;
+			while (*s != c && *s != '\0')
+				s++;
 		}
-		aux = aux->next;
+		else
+			s++;
 	}
-	if (data->path == NULL)
+	return (i);
+}
+
+int	split_cmds(t_data *d)
+{
+	d->cmds = ft_calloc(ft_counter (d->line, '|') + 1, sizeof(char **));
+	if (!d->cmds)
+		return (EXIT_FAILURE);
+	d->cmds = ft_split (d->line, '|');
+	if (!d->cmds)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

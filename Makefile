@@ -6,7 +6,7 @@
 #    By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 17:53:46 by ilopez-r          #+#    #+#              #
-#    Updated: 2024/03/13 16:40:21 by ilopez-r         ###   ########.fr        #
+#    Updated: 2024/03/15 13:28:40 by ilopez-r         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ FLAGS = -Wall -Werror -Wextra
 FILES = src/minishell.c\
 		src/prompt.c\
 		src/split_path.c\
+		src/builtins/env.c\
+		src/split_cmds.c\
 
 OBJS = $(FILES:.c=.o)
 
