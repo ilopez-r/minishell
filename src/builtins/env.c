@@ -62,3 +62,15 @@ void	get_env(t_data *data, char **env)
 	}
 	//poner el índice
 }
+
+void	env_exe(t_data *data)
+{
+	t_env	*aux;
+
+	aux = data->env;
+	while (aux != NULL)
+	{
+		printf("%s%s\n", aux->name, aux->content);
+		aux = aux->next;
+	}
+}
