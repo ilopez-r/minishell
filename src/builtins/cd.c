@@ -6,7 +6,7 @@
 /*   By: alirola- <alirola-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:14:32 by alirola-          #+#    #+#             */
-/*   Updated: 2024/03/15 15:39:06 by alirola-         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:49:56 by alirola-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	change_pwd(t_data *data)
 {
 	char	dir[500];
-	t_env	aux;
+	t_env	*aux;
 
 	aux = data->line;
 	while (aux)
@@ -52,7 +52,7 @@ void	get_home_path(t_data *data, char *s)
 void	change_oldpwd(t_data *data, char *dir)
 {
 	char	dir[500];
-	t_env	aux;
+	t_env	*aux;
 
 	aux = data->line;
 	while (aux)
