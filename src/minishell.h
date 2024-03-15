@@ -34,6 +34,7 @@ typedef struct s_data
 	char	**path;
 	t_env	*env;
 	char	**cmds;
+	char	*tmp;
 }	t_data;
 
 int		main(int argc, char **argv, char **env);
