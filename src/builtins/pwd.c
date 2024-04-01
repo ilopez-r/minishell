@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alirola- <alirola-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alirola- <alirola-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:41:03 by alirola-          #+#    #+#             */
-/*   Updated: 2024/03/14 17:12:12 by alirola-         ###   ########.fr       */
+/*   Updated: 2024/03/16 01:38:01 by alirola-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	pwd_exe(void)
 {
 	char	actual_dir[500];
 
 	getcwd(actual_dir, 500);
-	printf("%s", actual_dir);
+	printf("%s\n", actual_dir);
 }

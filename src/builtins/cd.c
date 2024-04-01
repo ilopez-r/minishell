@@ -6,18 +6,18 @@
 /*   By: alirola- <alirola-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:14:32 by alirola-          #+#    #+#             */
-/*   Updated: 2024/03/15 15:49:56 by alirola-         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:00:30 by alirola-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	change_pwd(t_data *data)
 {
 	char	dir[500];
 	t_env	*aux;
 
-	aux = data->line;
+	aux = data->env;
 	while (aux)
 	{
 		if (ft_strncmp(aux->name, "PWD", 3) == EXIT_SUCCESS)
@@ -30,14 +30,14 @@ void	change_pwd(t_data *data)
 		}
 		aux = aux->next;
 	}
-	g_status = 0;
+	//g_status = 0;
 }
 
 void	get_home_path(t_data *data, char *s)
 {
 	t_env	*aux;
 
-	aux = data->line;
+	aux = data->env;
 	while (aux)
 	{
 		if (ft_strncmp(aux->name, s, ft_strlen(s)) == EXIT_SUCCESS)
@@ -51,10 +51,9 @@ void	get_home_path(t_data *data, char *s)
 
 void	change_oldpwd(t_data *data, char *dir)
 {
-	char	dir[500];
 	t_env	*aux;
 
-	aux = data->line;
+	aux = data->env;
 	while (aux)
 	{
 		if (ft_strncmp(aux->name, "OLDPWD", 6) == EXIT_SUCCESS)
@@ -78,7 +77,7 @@ void	change_cd(t_data *data)
 	get_home_path(data, "HOME\0");
 	chdir(data->tmp);
 	change_pwd(data);
-	g_status = 0;
+	//g_status = 0;
 }
 
 void	cd_exe(t_data *d, char **s, int flag)
@@ -96,16 +95,16 @@ void	cd_exe(t_data *d, char **s, int flag)
 			change_oldpwd(d, dir);
 			change_pwd(d);
 		}
-		else if (flag == -1)
-		{
-			d->tmp = ft_strjoin ("bash: cd: ", s[1]);
-			if (!d->tmp)
-				return ;
-			d->cd_error = ft_strjoin(d->tmp, ": No such file or directory");
-			if (!d->cd_error)
-				return ;
-			ft_putendl_fd(d->cd_error, 2);
-			free_cd_error(d);
-		}
+		 else if (flag == -1)
+		 {
+		 	d->tmp = ft_strjoin ("bash: cd: ", s[1]);
+		 	if (!d->tmp)
+		 		return ;
+		// 	d->cd_error = ft_strjoin(d->tmp, ": No such file or directory");
+		// 	if (!d->cd_error)
+		// 		return ;
+		// 	ft_putendl_fd(d->cd_error, 2);
+		// 	free_cd_error(d);
+		 }
 	}
 }
