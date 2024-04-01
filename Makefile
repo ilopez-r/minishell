@@ -6,7 +6,7 @@
 #    By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 17:53:46 by ilopez-r          #+#    #+#              #
-#    Updated: 2024/03/15 13:28:40 by ilopez-r         ###   ########.fr        #
+#    Updated: 2024/03/20 18:15:09 by ilopez-r         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,9 @@ FILES = src/minishell.c\
 		src/split_path.c\
 		src/builtins/env.c\
 		src/split_cmds.c\
+		src/split_words.c\
+		src/parser.c\
+		src/free_nodes.c\
 
 OBJS = $(FILES:.c=.o)
 

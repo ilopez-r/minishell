@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:21:29 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/03/15 13:26:57 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:08:49 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,22 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_parser
+{
+	char	**full_cmd;
+	char	*route;
+	int		infile;
+	int		outfile;
+}	t_parser;
+
 typedef struct s_data
 {
 	char	*line;
 	char	**path;
 	t_env	*env;
 	char	**cmds;
-	char	*tmp;
+	char	***words;
+	t_list	*nodes;
 }	t_data;
 
 int		main(int argc, char **argv, char **env);
@@ -44,5 +53,8 @@ void	cigarrette(void);
 int		split_path(t_data *data);
 void	get_env(t_data *data, char **env);
 int		split_cmds(t_data *data);
+int		parser_cmd(t_data *data);
+char	**ft_split_words(char const *s, char c);
+void	free_nodes(t_list **lst);
 
 #endif
