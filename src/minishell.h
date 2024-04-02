@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: ismael <ismael@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:21:29 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/02 16:16:14 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/02 22:32:53 by ismael           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ typedef struct s_data
 	int		f;
 	int		len;
 	int		d;
+	int		a;
+	int		b;
+	char	*str;
+	int		f_hd;
+	int		f_token;
 	t_list	*nodes;
 }	t_data;
 
@@ -59,7 +64,9 @@ void	cigarrette(void);
 int		split_path(t_data *data);
 void	get_env(t_data *data, char **env);
 int		split_cmds(t_data *data);
-int		parser_cmd(t_data *data, int i, int j);
+int		parser(t_data *data, int i, int j);
+int		ft_token_1(t_data *d, int *i, int *j, t_parser **n);
+int		ft_token_2(t_data *d, int *i, int *j, t_parser **n);
 char	**ft_split_words(t_data *data, char const *s, char c, int i);
 void	free_nodes(t_list **lst);
 void	pwd_exe(void);

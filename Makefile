@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+         #
+#    By: ismael <ismael@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 17:53:46 by ilopez-r          #+#    #+#              #
-#    Updated: 2024/04/02 17:09:24 by ilopez-r         ###   ########.fr        #
+#    Updated: 2024/04/02 22:37:06 by ismael           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ FLAGS = -Wall -Werror -Wextra
 
 FILES = src/minishell.c\
 		src/prompt.c\
-		src/split_path.c\
+		src/splits/split_path.c\
+		src/splits/split_cmds.c\
+		src/splits/split_words.c\
 		src/builtins/env.c\
 		src/builtins/pwd.c\
 		src/builtins/cd.c\
@@ -25,9 +27,8 @@ FILES = src/minishell.c\
 		src/builtins/exit.c\
 		src/builtins/builtins_utils/checks.c\
 		src/builtins/builtins_utils/frees.c\
-		src/split_cmds.c\
-		src/split_words.c\
-		src/parser.c\
+		src/parser/parser.c\
+		src/parser/parser_utils.c\
 		src/free_nodes.c\
 
 OBJS = $(FILES:.c=.o)

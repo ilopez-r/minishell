@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: ismael <ismael@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:29:34 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/02 17:03:53 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/02 22:33:24 by ismael           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,10 @@ int	input(t_data *d)
 		printf("%s\n", d->cmds[i]);
 		i++;
 	}*/
-	if (parser_cmd (d, 0, 0) == 1)
+	if (parser (d, 0, 0) == 1)
 		return (EXIT_SUCCESS);
-	/*t_list	*aux;
+	//desde aqui
+	t_list	*aux;
 	int		i;
 
 	aux = d->nodes;
@@ -106,7 +107,10 @@ int	input(t_data *d)
 			((t_parser *)(aux->content))->out,
 			((t_parser *)(aux->content))->in);
 		aux = aux->next;
-	}*/
+	}
+	//hasta aqui
+	if (d->nodes == NULL)
+		return (EXIT_SUCCESS);
 	if (builtins_executer(((t_parser *)d->nodes->content), d) == 1)
 		return (EXIT_SUCCESS);
 	/*int i = -1;

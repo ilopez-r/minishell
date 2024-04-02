@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: ismael <ismael@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:08:11 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/02 16:09:20 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/02 19:13:37 by ismael           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static t_env	*get_first(t_data *data)
 {
 	t_env	*first;
 	t_env	*aux;
-	int		i;
+	//int		i;
 
-	i = 1;
+	//i = 1;
 	aux = data->env;
 	first = data->env;
 	while (aux)
