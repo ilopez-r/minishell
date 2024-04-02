@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alirola- <alirola-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/28 16:43:49 by alirola-          #+#    #+#             */
-/*   Updated: 2024/04/02 15:44:56 by alirola-         ###   ########.fr       */
+/*   Created: 2024/04/02 16:08:11 by ilopez-r          #+#    #+#             */
+/*   Updated: 2024/04/02 16:09:20 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	export_cmp(const char *s1, const char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] || s2[i])
@@ -47,7 +47,7 @@ static t_env	*get_first(t_data *data)
 	return (first);
 }
 
-void restart_index(t_data *data)
+void	restart_index(t_data *data)
 {
 	t_env	*aux;
 

@@ -30,7 +30,7 @@ void	check_path(t_data *data)
 	}
 }
 
-int check_node(t_data *data, char **s)
+int	check_node(t_data *data, char **s)
 {
 	t_env	*aux;
 

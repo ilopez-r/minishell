@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:16:53 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/03/21 16:55:18 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:11:58 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,104 +19,84 @@ static void	ft_free_words(char **str, int i)
 	free(str);
 }
 
-static int	ft_counter_words(char const *s, char c)
+static int	ft_counter_words(t_data *d, char const *s, char c, int count)
 {
-	int		count;
-	int		flag;
-	char	quote;
-
-	count = 0;
-	flag = 0;
 	while (*s != '\0')
 	{
-		quote = '\0';
-		while ((*s == c || *s == '\'' || *s == '\"') && quote == '\0' && *s != '\0')
+		d->q = '\0';
+		while ((*s == c || *s == 39 || *s == 34) && d->q == '\0' && *s != '\0')
 		{
 			if (*s == '\'' || *s == '\"')
 			{
-				flag = !flag;
-				quote = *s;
+				d->f = !d->f;
+				d->q = *s;
 			}
 			s++;
 		}
-		if (*s != '\0' && *s != quote && *s != ' ' && *s != '	')
+		if (*s != '\0' && *s != d->q && *s != ' ' && *s != '	')
 			count++;
-		if (flag)
+		if (d->f)
 		{
-			while (*s != quote && *s != '\0')
+			while (*s != d->q && *s != '\0')
 				s++;
-			flag = !flag;
+			d->f = !d->f;
 		}
-		while (*s != c && *s != '\0')
-		{
-			s++;
+		while (*s != c && *s != '\0' && *(s)++)
 			if (*s == '\'' || *s == '\"')
 				break ;
-		}
 	}
 	return (count);
 }
 
-static int	ft_len_words(char const *s, char c, int *d)
+static int	ft_len_words(t_data *data, char const *s, char c, int *d)
 {
-	int		len;
-	int		flag;
-	char	quote;
-
-	len = 0;
-	flag = 0;
-	quote = '\0';
 	while (s[*d] != '\0' && s[*d] != c)
 	{
-		while ((s[*d] == '\'' || s[*d] == '\"') && quote == '\0' && s[*d] != '\0')
+		while ((s[*d] == 39 || s[*d] == 34) && data->q == '\0' && s[*d] != '\0')
 		{
-			if (quote == '\0' || s[*d] == quote)
+			if (data->q == '\0' || s[*d] == data->q)
 			{
-				flag = !flag;
-				quote = s[*d];
+				data->f = !data->f;
+				data->q = s[*d];
 			}
 			(*d)++;
 			if (s[*d] == c || s[*d] == '\0')
-				flag = !flag;
-			if (flag && (s[*d] == c || s[*d] == '\0'))
-				return ((*d)--, len);
-			if (s[*d] == c)
-			{
-				(*d)++;
-				quote = '\0';
-			}
+				data->f = !data->f;
+			if (data->f && (s[*d] == c || s[*d] == '\0'))
+				return ((*d)--, data->len);
+			if (s[*d] == c && (*d)++)
+				data->q = '\0';
 		}
-		while ((flag || s[*d] != c) && s[*d] != quote && s[*d] != '\0')
-		{
-			len++;
-			(*d)++;
-			if (!flag && (s[*d] == '\'' || s[*d] == '\"'))
-				return (len);
-		}
-		if (s[*d] == quote)
-			return (len);
+		while ((data->f || s[*d] != c) && s[*d] != data->q && s[*d] != '\0'
+			&& ++(*d) && ++data->len)
+			if (!data->f && (s[*d] == '\'' || s[*d] == '\"'))
+				return (data->len);
+		if (s[*d] == data->q)
+			return (data->len);
 	}
-	return (len);
+	return (data->len);
 }
 
-char	**ft_split_words(char const *s, char c)
+char	**ft_split_words(t_data *data, char const *s, char c, int i)
 {
 	char	**str;
-	int		i;
-	int		d;
 	int		len;
+	int		count;
 
-	d = 0;
-	i = -1;
-	str = malloc((ft_counter_words (s, c) + 1) * sizeof(char *));
+	data->d = 0;
+	count = ft_counter_words (data, s, c, 0);
+	str = malloc((count + 1) * sizeof(char *));
 	if (!str)
 		return (0);
-	while (++i < ft_counter_words (s, c))
+	while (++i < count)
 	{
-		len = ft_len_words(s, c, &d);
-		str[i] = ft_substr(s, (d - len), len);
-		while (s[d] == c)
-			d++;
+		data->f = 0;
+		data->q = '\0';
+		data->len = 0;
+		len = ft_len_words(data, s, c, &data->d);
+		str[i] = ft_substr(s, (data->d - len), len);
+		while (s[data->d] == c)
+			data->d++;
 		if (!(str[i]))
 		{
 			ft_free_words(str, i);

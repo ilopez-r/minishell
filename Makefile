@@ -6,7 +6,7 @@
 #    By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 17:53:46 by ilopez-r          #+#    #+#              #
-#    Updated: 2024/04/01 13:10:25 by ilopez-r         ###   ########.fr        #
+#    Updated: 2024/04/02 16:16:43 by ilopez-r         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ FILES = src/minishell.c\
 		src/builtins/pwd.c\
 		src/builtins/cd.c\
 		src/builtins/unset.c\
+		src/builtins/export.c\
+		src/builtins/exit.c\
 		src/builtins/builtins_utils/checks.c\
 		src/builtins/builtins_utils/frees.c\
 		src/split_cmds.c\
