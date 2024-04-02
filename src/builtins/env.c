@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: alirola- <alirola-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:08:43 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/03/15 13:08:26 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:00:58 by alirola-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int env_size(t_env *lst)
+{
+	int	size;
+
+	size = 0;
+	while(lst)
+	{
+		lst = lst->next;
+		size++;
+	}
+	return(size);
+}
 
 t_env	*ft_lstlast_env(t_env *lst)
 {
@@ -60,7 +73,7 @@ void	get_env(t_data *data, char **env)
 		ft_lstadd_back_env(&data->env, aux);
 		//free_dptr(line);
 	}
-	//poner el índice
+	set_index(data);
 }
 
 void	env_exe(t_data *data)

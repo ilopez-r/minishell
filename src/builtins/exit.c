@@ -19,24 +19,24 @@ int	exit_exe(t_data *data, t_parser *nodes)
 
 	i = 0;
 	j = 0;
-	while (nodes->full_cmds[i])
+	while (nodes->full_cmd[i])
 		i++;
 	if (i > 2)
 		return (printf("exit\nPITISHELL: exit: too many arguments\n"),
 			EXIT_FAILURE);
 	if (i >= 2)
 	{
-		while (nodes->full_cmds[1][j])
+		while (nodes->full_cmd[1][j])
 		{
-			if (ft_isdigit(nodes->full_cmds[1][j]) == 0)
+			if (ft_isdigit(nodes->full_cmd[1][j]) == 0)
 			{
 				printf("exit\nPITISHELL: exit: %s: numeric argument required\n",
-					nodes->full_cmds[1]);
+					nodes->full_cmd[1]);
 				break ;
 			}
 			j++;
 		}
 	}
 	free_path(data);
-	//exit (g_status);
+	exit (1);
 }

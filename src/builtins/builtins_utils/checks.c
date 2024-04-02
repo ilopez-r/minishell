@@ -29,3 +29,27 @@ void	check_path(t_data *data)
 		aux = aux->next;
 	}
 }
+
+int check_node(t_data *data, char **s)
+{
+	t_env	*aux;
+
+	aux = data->env;
+	while (aux)
+	{
+		if (ft_strncmp(aux->name, s[0], ft_strlen(s[0])) == EXIT_SUCCESS)
+		{
+			if (aux->content)
+			{
+				free(aux->content);
+				aux->content = ft_strdup((char *)s);
+			}
+			else
+				aux->content = ft_strdup((char *)s);
+			return (EXIT_SUCCESS);
+		}
+		else
+			aux = aux->next;
+	}
+	return (EXIT_FAILURE);
+}
