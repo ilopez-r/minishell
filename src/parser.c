@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:55:19 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/02 16:04:12 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:56:05 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	ft_command(t_data *data, int *i, int *j, t_parser **n)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_token_continue(t_data *data, int *i, int *j, int *flag, t_parser **n, int *flag2)
+int	ft_token_continue(t_data *data, int *i, int *j, int *f_hd, t_parser **n, int *f_token)
 {
 	int			len;
 	int			a;
@@ -89,26 +89,26 @@ int	ft_token_continue(t_data *data, int *i, int *j, int *flag, t_parser **n, int
 		if (data->cmds[*i][*j] == '<' || data->cmds[*i][*j] == '>')
 			return (printf ("syntax error near unexpected token `newline'\n"), 1);
 	len = (*j) - len;
-	if (*flag2 == 0)
+	if (*f_token == 1)
 		in = ft_calloc(len + 1, sizeof(char));
-	if (*flag2 == 1)
+	if (*f_token == 2)
 		out = ft_calloc(len + 1, sizeof(char));
 	while (data->cmds[*i][len] != ' ' && data->cmds[*i][len] != '\0')
 	{
-		if (*flag2 == 0)
+		if (*f_token == 1)
 			in[a] = data->cmds[*i][len];
-		if (*flag2 == 1)
+		if (*f_token == 2)
 			out[a] = data->cmds[*i][len];
 		a++;
 		len++;
 	}
-	if (*flag == 0 && *flag2 == 0)
+	if (*f_hd == 0 && *f_token == 1)
 		(*n)->in = open(in, O_RDONLY);
-	if (*flag == 0 && *flag2 == 1)
+	if (*f_hd == 0 && *f_token == 2)
 		(*n)->out = open(out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (*flag == 1 && *flag2 == 0)//heredoc
+	if (*f_hd == 1 && *f_token == 1)//heredoc
 		(*n)->in = open("h_d.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (*flag == 1 && *flag2 == 1)
+	if (*f_hd == 1 && *f_token == 2)
 		(*n)->out = open(out, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if ((*n)->in == -1 || (*n)->out == -1)
 		return (ft_printf("syntax error open infile or outfile\n"), 1);
@@ -119,11 +119,11 @@ int	ft_token_continue(t_data *data, int *i, int *j, int *flag, t_parser **n, int
 
 int	ft_token_2(t_data *data, int *i, int *j, t_parser **n)
 {
-	int	flag;
-	int	flag2;
+	int	f_hd;
+	int	f_token;
 
-	flag = 0;
-	flag2 = 1;
+	f_hd = 0;
+	f_token = 2;
 	if (data->cmds[*i][*j] == '>' && ++(*j))
 	{
 		if (data->cmds[*i][*j] == '\0')
@@ -131,12 +131,12 @@ int	ft_token_2(t_data *data, int *i, int *j, t_parser **n)
 		if (data->cmds[*i][*j] == '<')
 			return (printf ("syntax error near unexpected token `<'\n"), 1);
 		if (data->cmds[*i][*j] == '>' && ++(*j))
-			flag = 1;
-		if (flag == 1 && data->cmds[*i][*j] == '\0')
+			f_hd = 1;
+		if (f_hd == 1 && data->cmds[*i][*j] == '\0')
 			return (printf ("syntax error near unexpected token `newline'\n"), 1);
-		if (flag == 1 && data->cmds[*i][*j] == '<')
+		if (f_hd == 1 && data->cmds[*i][*j] == '<')
 			return (printf ("syntax error near unexpected token `<'\n"), 1);
-		if (flag == 1 && data->cmds[*i][*j] == '>')
+		if (f_hd == 1 && data->cmds[*i][*j] == '>')
 			return (printf ("syntax error near unexpected token `>>'\n"), 1);
 		while (data->cmds[*i][*j] == ' ' && ++(*j))
 		{
@@ -147,7 +147,7 @@ int	ft_token_2(t_data *data, int *i, int *j, t_parser **n)
 			if (data->cmds[*i][*j] == '>')
 				return (printf ("syntax error near unexpected token `>'\n"), 1);
 		}
-		if (ft_token_continue (data, i, j, &flag, n, &flag2) == 1)
+		if (ft_token_continue (data, i, j, &f_hd, n, &f_token) == 1)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -155,11 +155,11 @@ int	ft_token_2(t_data *data, int *i, int *j, t_parser **n)
 
 int	ft_token_1(t_data *data, int *i, int *j, t_parser **n)
 {
-	int	flag;
-	int	flag2;
+	int	f_hd;
+	int	f_token;
 
-	flag = 0;
-	flag2 = 0;
+	f_hd = 0;
+	f_token = 1;
 	if (data->cmds[*i][*j] == '<' && ++(*j))
 	{
 		if (data->cmds[*i][*j] == '\0')
@@ -167,12 +167,12 @@ int	ft_token_1(t_data *data, int *i, int *j, t_parser **n)
 		if (data->cmds[*i][*j] == '>')
 			return (printf ("syntax error near unexpected token `>'\n"), 1);
 		if (data->cmds[*i][*j] == '<' && ++(*j))
-			flag = 1;
-		if (flag == 1 && data->cmds[*i][*j] == '\0')
+			f_hd = 1;
+		if (f_hd == 1 && data->cmds[*i][*j] == '\0')
 			return (printf ("syntax error near unexpected token `newline'\n"), 1);
-		if (flag == 1 && data->cmds[*i][*j] == '<')
+		if (f_hd == 1 && data->cmds[*i][*j] == '<')
 			return (printf ("syntax error near unexpected token `<<'\n"), 1);
-		if (flag == 1 && data->cmds[*i][*j] == '>')
+		if (f_hd == 1 && data->cmds[*i][*j] == '>')
 			return (printf ("syntax error near unexpected token `>'\n"), 1);
 		while (data->cmds[*i][*j] == ' ' && ++(*j))
 		{
@@ -183,7 +183,7 @@ int	ft_token_1(t_data *data, int *i, int *j, t_parser **n)
 			if (data->cmds[*i][*j] == '>')
 				return (printf ("syntax error near unexpected token `>'\n"), 1);
 		}
-		if (ft_token_continue (data, i, j, &flag, n, &flag2) == 1)
+		if (ft_token_continue (data, i, j, &f_hd, n, &f_token) == 1)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

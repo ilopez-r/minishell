@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:29:34 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/02 16:14:27 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:03:53 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	check_quotes(char *s)
 
 int	builtins_executer(t_parser *node, t_data *d)
 {
+	if (!(node->full_cmd))
+		return (EXIT_FAILURE);
 	if (node->full_cmd[0] && ft_strncmp(node->full_cmd[0], "pwd\0", 4) == 0)
 		pwd_exe();
 	if (node->full_cmd[0] && ft_strncmp(node->full_cmd[0], "env\0", 4) == 0)
@@ -83,8 +85,7 @@ int	input(t_data *d)
 	}*/
 	if (parser_cmd (d, 0, 0) == 1)
 		return (EXIT_SUCCESS);
-	builtins_executer(((t_parser *)d->nodes->content), d);
-	t_list	*aux;
+	/*t_list	*aux;
 	int		i;
 
 	aux = d->nodes;
@@ -105,7 +106,9 @@ int	input(t_data *d)
 			((t_parser *)(aux->content))->out,
 			((t_parser *)(aux->content))->in);
 		aux = aux->next;
-	}
+	}*/
+	if (builtins_executer(((t_parser *)d->nodes->content), d) == 1)
+		return (EXIT_SUCCESS);
 	/*int i = -1;
 	while (d->subsplit[++i])
 		printf("d->subsplit[%d] = %s\n", i, d->subsplit[i]);*/
