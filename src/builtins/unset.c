@@ -12,13 +12,14 @@
 
 #include "../minishell.h"
 
-static void continue_unset(t_env *del)
+static void	continue_del_unset(t_env *del)
 {
 	free(del->name);
 	if (del->content != NULL)
 		free(del->content);
 	free(del);
 	del = NULL;
+	//g_status = 0;
 }
 
 void	unset_exe(t_data *data, char *name)
@@ -33,15 +34,14 @@ void	unset_exe(t_data *data, char *name)
 	prev = NULL;
 	while (aux)
 	{
-		if(!ft_strncmp(aux->name, name, ft_strlen(name)))
+		if (!ft_strncmp(aux->name, name, ft_strlen(name)))
 		{
 			del = aux;
-			if(prev)
+			if (prev)
 				prev->next = aux->next;
 			else
 				data->env = aux->next;
-			continue_unset(del);
-			//g_status = 0;
+			continue_del_unset(del);
 			return ;
 		}
 		prev = aux;

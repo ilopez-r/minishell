@@ -28,3 +28,23 @@ void	free_path(t_data *data)
 		data->path = NULL;
 	}
 }
+
+void	free_dptr(char **tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		free(tmp[i]);
+		i++;
+	}
+	free (tmp);
+}
+
+void	free_cd_error(t_data *data)
+{
+	free(data->tmp);
+	free(data->cd_error);
+	//g_status = 1;
+}

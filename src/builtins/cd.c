@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: alirola- <alirola-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:14:32 by alirola-          #+#    #+#             */
-/*   Updated: 2024/04/02 16:06:10 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/04 15:04:38 by alirola-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../minishell.h"
 
 #include "../minishell.h"
 
@@ -38,13 +36,15 @@ void	change_pwd(t_data *data)
 void	get_home_path(t_data *data, char *s)
 {
 	t_env	*aux;
+	char	**ctnt;
 
 	aux = data->env;
 	while (aux)
 	{
 		if (ft_strncmp(aux->name, s, ft_strlen(s)) == EXIT_SUCCESS)
 		{
-			data->tmp = aux->content;
+			ctnt = ft_split(aux->content, '=');
+			data->tmp = ctnt[0];
 			break ;
 		}
 		aux = aux->next;
@@ -86,7 +86,7 @@ void	cd_exe(t_data *d, char **s, int flag)
 {
 	char	dir[500];
 
-	if (ft_strncmp(s[0], "cd\0", 3) && s[1] == NULL)
+	if (ft_strncmp(s[0], "cd\0", 3) == EXIT_SUCCESS && !s[1])
 		change_cd(d);
 	else if (!ft_strncmp(s[0], "cd\0", 3) && s[1])
 	{
@@ -97,16 +97,16 @@ void	cd_exe(t_data *d, char **s, int flag)
 			change_oldpwd(d, dir);
 			change_pwd(d);
 		}
-		 else if (flag == -1)
-		 {
-		 	d->tmp = ft_strjoin ("bash: cd: ", s[1]);
-		 	if (!d->tmp)
-		 		return ;
-		// 	d->cd_error = ft_strjoin(d->tmp, ": No such file or directory");
-		// 	if (!d->cd_error)
-		// 		return ;
-		// 	ft_putendl_fd(d->cd_error, 2);
-		// 	free_cd_error(d);
-		 }
+		else if (flag == -1)
+		{
+			d->tmp = ft_strjoin("bash: cd: ", s[1]);
+			if (!d->tmp)
+				return ;
+			d->cd_error = ft_strjoin(d->tmp, ": No such file or directory");
+			if (!d->cd_error)
+				return ;
+			ft_putendl_fd(d->cd_error, 2);
+			free_cd_error(d);
+		}
 	}
 }

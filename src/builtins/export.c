@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismael <ismael@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alirola- <alirola-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:08:11 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/02 19:13:37 by ismael           ###   ########.fr       */
+/*   Updated: 2024/04/04 15:21:22 by alirola-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ static t_env	*get_first(t_data *data)
 {
 	t_env	*first;
 	t_env	*aux;
-	//int		i;
 
-	//i = 1;
 	aux = data->env;
 	first = data->env;
 	while (aux)
@@ -47,18 +45,6 @@ static t_env	*get_first(t_data *data)
 	return (first);
 }
 
-void	restart_index(t_data *data)
-{
-	t_env	*aux;
-
-	aux = data->env;
-	while (aux)
-	{
-		aux->index = 0;
-		aux = aux->next;
-	}
-}
-
 void	set_index(t_data *data)
 {
 	int		index;
@@ -67,6 +53,12 @@ void	set_index(t_data *data)
 
 	index = 1;
 	first = data->env;
+	aux = data->env;
+	while (aux)
+	{
+		aux->index = 0;
+		aux = aux->next;
+	}
 	while (index <= env_size(data->env))
 	{
 		aux = data->env;
@@ -82,17 +74,16 @@ void	set_index(t_data *data)
 	}
 }
 
-/* static void	export_exe_content(t_data *data, char *s, char **tmp)
+static void	export_exe_content(t_data *data, char *s, char **tmp, t_env *aux)
 {
-	t_env *new;
-	t_env *aux;
+	t_env	*new;
 
-	tmp = ft_split_words(s, '=');
+	tmp = ft_split(s, '=');
 	if (!tmp)
 		return ;
 	if (check_node(data, tmp) == EXIT_SUCCESS)
 	{
-		//free_dptr(tmp);
+		free_dptr(tmp);
 		return ;
 	}
 	new = malloc(sizeof(t_env));
@@ -100,26 +91,27 @@ void	set_index(t_data *data)
 		return ;
 	new->name = ft_strdup(tmp[0]);
 	if (tmp[1] == NULL)
-		new->content = ft_strdup("\"\"");
+		new->content = ft_strjoin("=", "\"\"");
+	else if (tmp[1])
+		new->content = ft_strjoin("=", tmp[1]);
 	new->index = 0;
 	aux = data->env;
 	while (aux->next)
 		aux = aux->next;
 	aux->next = new;
 	new->next = NULL;
-	//free_dptr(tmp);
-} */
+	free_dptr(tmp);
+}
 
 void	export_exe(t_data *data, char **s, int index)
 {
 	t_env	*aux;
 
-	restart_index(data);
 	set_index(data);
 	aux = data->env;
-	/* if (s[1])
-		export_exe_null(data, s[1], NULL); */
-	if (s[1] == NULL)
+	if (s[1])
+		export_exe_content(data, s[1], NULL, aux);
+	else if (s[1] == NULL)
 	{
 		while (aux)
 		{

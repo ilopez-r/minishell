@@ -37,6 +37,6 @@ int	exit_exe(t_data *data, t_parser *nodes)
 			j++;
 		}
 	}
-	free_path(data);
+	free_dptr(data->path);
 	exit (1);
 }

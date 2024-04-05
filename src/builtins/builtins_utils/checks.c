@@ -42,10 +42,13 @@ int	check_node(t_data *data, char **s)
 			if (aux->content)
 			{
 				free(aux->content);
-				aux->content = ft_strdup((char *)s);
+				if (s[1] == NULL)
+					aux->content = ft_strjoin("=", "\"\"");
+				else
+					aux->content = ft_strjoin("=", s[1]);
 			}
 			else
-				aux->content = ft_strdup((char *)s);
+				aux->content = ft_strdup(s[1]);
 			return (EXIT_SUCCESS);
 		}
 		else
