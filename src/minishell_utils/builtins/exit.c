@@ -12,31 +12,29 @@
 
 #include "../../minishell.h"
 
-int	exit_exe(t_data *data, t_parser *nodes)
+int	exit_exe(t_data *data, t_parser *n, int fd, int i)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (nodes->full_cmd[i])
-		i++;
-	if (i > 2)
-		return (printf("error: exit: too many arguments\n"),
-			EXIT_FAILURE);
-	if (i >= 2)
+	ft_printf (fd, "exit\n");
+	if (n->full_cmd[1] != NULL && n->full_cmd[2] != NULL)
+		ft_printf(fd, "error: exit: too many arguments\n");
+	else if (n->full_cmd[1] != NULL)
 	{
-		while (nodes->full_cmd[1][j])
+		i = -1;
+		if (n->full_cmd[1][0] == '+' || n->full_cmd[1][0] == '-')
+			i++;
+		while (n->full_cmd[1][++i])
 		{
-			if (ft_isdigit(nodes->full_cmd[1][j]) == 0)
+			if (ft_isdigit(n->full_cmd[1][i]) == 0)
 			{
-				printf("error: exit: %s: numeric argument required\n",
-					nodes->full_cmd[1]);
+				ft_printf(fd, "error: exit: %s: not an int\n", n->full_cmd[1]);
 				break ;
 			}
-			j++;
 		}
 	}
-	free_dptr(data->path);
+	if (data->path != NULL)
+	{
+		free_dptr(data->path);
+		data->path = NULL;
+	}
 	exit (1);
 }

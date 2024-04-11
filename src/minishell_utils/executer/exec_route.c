@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 13:51:21 by ismael            #+#    #+#             */
-/*   Updated: 2024/04/10 17:39:56 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:24:34 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,25 @@ void	exec_route_child(t_data *data, t_parser *node, char **env)
 		msg_error("Exec error\n");
 }
 
+void	exec_route_default(t_parser *node, char **env)
+{
+	pid_t		pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		//g_status = 1;
+		msg_error("Fork error\n");
+	}
+	if (pid == 0)
+	{
+		if (execve(node->route, node->full_cmd, env) == -1)
+			msg_error("Exec error\n");
+	}
+	else
+		waitpid(pid, NULL, 0);
+}
+
 void	exec_route(t_data *data, t_parser *node, char **env)
 {
 	pid_t		pid;
@@ -54,21 +73,7 @@ void	exec_route(t_data *data, t_parser *node, char **env)
 	if (builtins_executer (node, data) == 0)
 		return ;
 	else if (node->in == 0 && node->out == 1)
-	{
-		pid = fork();
-		if (pid == -1)
-		{
-			//g_status = 1;
-			msg_error("Fork error\n");
-		}
-		if (pid == 0)
-		{
-			if (execve(node->route, node->full_cmd, env) == -1)
-				msg_error("Exec error\n");
-		}
-		else
-			waitpid(pid, NULL, 0);
-	}
+		exec_route_default (node, env);
 	else
 	{
 		aux = data->nodes;

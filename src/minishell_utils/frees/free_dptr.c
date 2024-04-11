@@ -17,12 +17,15 @@ void	free_dptr(char **tmp)
 	int	i;
 
 	i = 0;
-	while (tmp[i])
+	while (tmp != NULL && tmp[i] != NULL)
 	{
 		free (tmp[i]);
 		tmp[i] = NULL;
 		i++;
 	}
-	free (tmp);
-	tmp = NULL;
+	if (tmp != NULL)
+	{
+		free (tmp);
+		tmp = NULL;
+	}
 }

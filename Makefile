@@ -6,7 +6,7 @@
 #    By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 17:53:46 by ilopez-r          #+#    #+#              #
-#    Updated: 2024/04/11 12:07:42 by ilopez-r         ###   ########.fr        #
+#    Updated: 2024/04/11 15:26:02 by ilopez-r         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ FILES = src/minishell.c\
 		src/minishell_utils/executer/exec_route_pipes.c\
 		src/minishell_utils/executer/exec_route.c\
 		src/minishell_utils/executer/executer.c\
+		src/minishell_utils/executer/get_route.c\
 		src/minishell_utils/frees/free_all.c\
 		src/minishell_utils/frees/free_cd_error.c\
 		src/minishell_utils/frees/free_dptr.c\

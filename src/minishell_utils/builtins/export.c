@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:08:11 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/09 16:45:29 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:48:10 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,11 @@ static void	export_exe_content(t_data *data, char *s, char **tmp, t_env *aux)
 		return ;
 	if (check_node(data, tmp) == EXIT_SUCCESS)
 	{
-		free_dptr(tmp);
+		if (tmp != NULL)
+		{
+			free_dptr(tmp);
+			tmp = NULL;
+		}
 		return ;
 	}
 	new = malloc(sizeof(t_env));
@@ -100,7 +104,11 @@ static void	export_exe_content(t_data *data, char *s, char **tmp, t_env *aux)
 		aux = aux->next;
 	aux->next = new;
 	new->next = NULL;
-	free_dptr(tmp);
+	if (tmp != NULL)
+	{
+		free_dptr(tmp);
+		tmp = NULL;
+	}
 }
 
 void	export_exe(t_data *data, char **s, int index, int fd)

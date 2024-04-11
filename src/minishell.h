@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:21:29 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/11 12:07:06 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:00:43 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		main(int argc, char **argv, char **env);
 void	piti_shell(void);
 void	cigarrette(void);
 int		split_path(t_data *data);
-void	get_env(t_data *data, char **env);
+void	get_env(t_data *data, char **env, int i);
 int		split_cmds(t_data *data);
 int		parser(t_data *data, int i, int j);
 int		ft_token_infile(t_data *d, int *i, int *j, t_parser **n);
@@ -81,7 +81,7 @@ void	env_exe(t_data *data, int fd);
 void	cd_exe(t_data *d, char **s, int flag);
 void	unset_exe(t_data *data, char *name);
 void	check_path(t_data *data);
-int		exit_exe(t_data *data, t_parser *nodes);
+int		exit_exe(t_data *data, t_parser *nodes, int fd, int i);
 void	free_dptr(char **tmp);
 int		env_size(t_env *lst);
 void	set_index(t_data *data);
@@ -89,7 +89,7 @@ void	free_all(t_data *data);
 void	export_exe(t_data *data, char **s, int index, int fd);
 void	free_t_parser(t_parser *n);
 int		check_quotes(char *s);
-int		executer(t_data *data, char **env, t_parser *node);
+int		executer(t_data *data, char **env, t_parser *node, int i);
 void	exec_route(t_data *data, t_parser *node, char **env);
 void	exec_route_pipes(t_data *data, t_parser *node, char **env, t_list *aux);
 void	msg_error(char *str);
@@ -101,5 +101,7 @@ int		check_node(t_data *data, char **s);
 void	free_cd_error(t_data *data);
 int		builtins_executer(t_parser *node, t_data *d);
 void	here_doc(t_data *data, t_parser **n, char *line);
+int		route(t_data *data, int *i);
+int		check_builtins(t_parser *n);
 
 #endif

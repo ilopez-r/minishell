@@ -25,7 +25,14 @@ void	check_path(t_data *data)
 			return ;
 		}
 		else
+		{
 			data->path_flag = 0;
+			if (data->path != NULL)
+			{
+				free_dptr(data->path);
+				data->path = NULL;
+			}
+		}
 		aux = aux->next;
 	}
 }
@@ -42,10 +49,13 @@ int	check_node(t_data *data, char **s)
 			if (aux->content)
 			{
 				free(aux->content);
-				aux->content = ft_strdup((char *)s);
+				if (s[1] == NULL)
+					aux->content = ft_strjoin("=", "\"\"");
+				else
+					aux->content = ft_strjoin("=", s[1]);
 			}
 			else
-				aux->content = ft_strdup((char *)s);
+				aux->content = ft_strdup(s[1]);
 			return (EXIT_SUCCESS);
 		}
 		else

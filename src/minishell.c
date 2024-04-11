@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:29:34 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/11 13:18:20 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:56:06 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	input(t_data *d, char **env)
 		return (EXIT_SUCCESS);
 	if (d->nodes == NULL)
 		return (EXIT_SUCCESS);
-	if (executer(d, env, ((t_parser *)d->nodes->content)) == EXIT_FAILURE)
+	if (executer(d, env, ((t_parser *)d->nodes->content), 0) == EXIT_FAILURE)
 		return (EXIT_SUCCESS);
 	unlink("here_doc.tmp");
 	return (EXIT_SUCCESS);
@@ -53,23 +53,20 @@ int	prompt(t_data *data)
 	free (dir);
 	dir = NULL;
 	if (data->line == NULL)
+	{
+		printf ("exit\n");
 		exit (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
 int	minishell(t_data *data, char **env)
 {
-	piti_shell();
-	cigarrette();
-	get_env (data, env);
 	while (69)
 	{
 		//hacer minitalk
 		if (prompt(data) == 1)
-		{
-			printf("exit\n");
 			exit (EXIT_FAILURE);
-		}
 		if (ft_strncmp(data->line, "\0", 1) >= 1)
 			add_history(data->line);
 		if (input(data, env) == 1)
@@ -77,9 +74,15 @@ int	minishell(t_data *data, char **env)
 		if (data->nodes != NULL)
 			free_nodes(&data->nodes);
 		if (data->cmds != NULL)
+		{
 			free_dptr(data->cmds);
+			data->cmds = NULL;
+		}
 		if (data->line != NULL)
+		{
 			free(data->line);
+			data->line = NULL;
+		}
 	}
 	return (EXIT_SUCCESS);
 }
@@ -97,6 +100,9 @@ int	main(int argc, char **argv, char **env)
 	if (!data)
 		return (EXIT_FAILURE);
 	init_struct(data);
+	piti_shell();
+	cigarrette();
+	get_env (data, env, -1);
 	if (minishell(data, env) == 1)
 		return (free_all(data), EXIT_FAILURE);
 	return (free_all(data), EXIT_SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_t_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismael <ismael@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 15:43:32 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/05 20:17:21 by ismael           ###   ########.fr       */
+/*   Updated: 2024/04/11 18:52:53 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	free_t_parser(t_parser *n)
 {
-	//int			i;
-
 	if (n == NULL)
 		return ;
-	//i = -1;
 	if (n->full_cmd != NULL)
+	{
 		free_dptr(n->full_cmd);
+		n->full_cmd = NULL;
+	}
 	if (n->route != NULL)
 		free(n->route);
 	if (n->in != 0)

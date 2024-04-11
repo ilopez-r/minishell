@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:23:50 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/04 17:48:34 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:09:47 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	split_path(t_data *data)
 
 	aux = data->env;
 	if (data->path != NULL)
+	{
 		free_dptr(data->path);
+		data->path = NULL;
+	}
 	while (aux)
 	{
 		if (ft_strncmp(aux->name, "PATH", 4) == 0)
@@ -28,7 +31,5 @@ int	split_path(t_data *data)
 		}
 		aux = aux->next;
 	}
-	if (data->path == NULL)
-		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

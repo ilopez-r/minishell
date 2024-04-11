@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:49:23 by ismael            #+#    #+#             */
-/*   Updated: 2024/04/10 13:25:12 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:14:52 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	exec_route_pipes_child(t_data *d, t_parser *node, char **env, t_list *aux)
 	close (d->fd[1]);
 	//g_status = execve(node->route, node->full_cmd, env);
 	//sustituir lo de abajo por g_status
-	if (ft_strncmp(node->route, "builtin\0", 8) == 0)
+	if (ft_strncmp(node->route, "b\0", 2) == 0)
 	{
 		if (node->out == 1 && ((t_parser *)(aux->next->content))->in == 0)
 			((t_parser *)(aux->next->content))->out = d->fd[0];
