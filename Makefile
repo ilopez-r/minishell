@@ -6,7 +6,7 @@
 #    By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/12 17:53:46 by ilopez-r          #+#    #+#              #
-#    Updated: 2024/04/08 17:41:39 by ilopez-r         ###   ########.fr        #
+#    Updated: 2024/04/11 12:07:42 by ilopez-r         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,13 @@ FILES = src/minishell.c\
 		src/minishell_utils/frees/free_dptr.c\
 		src/minishell_utils/frees/free_nodes.c\
 		src/minishell_utils/frees/free_t_parser.c\
+		src/minishell_utils/parser/here_doc.c\
 		src/minishell_utils/parser/parser_utils.c\
 		src/minishell_utils/parser/parser.c\
 		src/minishell_utils/splits/split_cmds.c\
 		src/minishell_utils/splits/split_path.c\
 		src/minishell_utils/splits/split_words.c\
+		src/minishell_utils/tests/tests.c\
 		
 OBJS = $(FILES:.c=.o)
 

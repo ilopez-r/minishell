@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:14:32 by alirola-          #+#    #+#             */
-/*   Updated: 2024/04/08 17:26:01 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:48:01 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	cd_exe(t_data *d, char **s, int flag)
 		}
 		else if (flag == -1)
 		{
-			d->tmp = ft_strjoin("bash: cd: ", s[1]);
+			d->tmp = ft_strjoin("error: cd: ", s[1]);
 			if (!d->tmp)
 				return ;
 			d->cd_error = ft_strjoin(d->tmp, ": No such file or directory");

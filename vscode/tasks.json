@@ -17,6 +17,7 @@
                 "../src/minishell_utils/frees/*.c",
                 "../src/minishell_utils/parser/*.c",
                 "../src/minishell_utils/splits/*.c",
+                "../src/minishell_utils/tests/*.c",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

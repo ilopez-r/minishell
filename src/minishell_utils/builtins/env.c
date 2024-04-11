@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 16:08:43 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/04 17:47:41 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:41:42 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,14 @@ void	get_env(t_data *data, char **env)
 	set_index(data);
 }
 
-void	env_exe(t_data *data)
+void	env_exe(t_data *data, int fd)
 {
 	t_env	*aux;
 
 	aux = data->env;
 	while (aux != NULL)
 	{
-		printf("%s%s\n", aux->name, aux->content);
+		ft_printf(fd, "%s%s\n", aux->name, aux->content);
 		aux = aux->next;
 	}
 }

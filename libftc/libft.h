@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:48:37 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/01/18 12:48:18 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:10:40 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	**ft_split(char const *s, char c);
-int		ft_printchar(char c);
-int		ft_printdec(long long int n);
-int		ft_printf(char const *str, ...);
-int		ft_printhexa(unsigned long long n, char c);
-int		ft_printptr(unsigned long long ptr);
-int		ft_printstr(char *str);
-int		ft_printunsigned(unsigned long long int n);
+int		ft_printchar(char c, int fd);
+int		ft_printdec(long long int n, int fd);
+int		ft_printf(int fd, char const *str, ...);
+int		ft_printhexa(unsigned long long n, char c, int fd);
+int		ft_printptr(unsigned long long ptr, int fd);
+int		ft_printstr(char *str, int fd);
+int		ft_printunsigned(unsigned long long int n, int fd);
 size_t	gnl_ft_strlen(const char *str);
 int		gnl_ft_strchr(const char *str, int c);
 void	*gnl_ft_calloc(size_t count, size_t size);

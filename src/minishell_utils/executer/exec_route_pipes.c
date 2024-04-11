@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:49:23 by ismael            #+#    #+#             */
-/*   Updated: 2024/04/08 17:10:30 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:25:12 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	exec_route_pipes_final(t_data *d, t_parser *node, char **env)
 		msg_error("Last command exec error\n");
 }
 
-void	exec_route_pipes_child(t_data *d, t_parser *node, char **env)
+void	exec_route_pipes_child(t_data *d, t_parser *node, char **env, t_list *aux)
 {
 	//minitalk;
 	if (d->f_hd == 1)
@@ -87,44 +87,41 @@ void	exec_route_pipes_child(t_data *d, t_parser *node, char **env)
 	close (d->fd[1]);
 	//g_status = execve(node->route, node->full_cmd, env);
 	//sustituir lo de abajo por g_status
-	if (execve(node->route, node->full_cmd, env) == -1)
+	if (ft_strncmp(node->route, "builtin\0", 8) == 0)
+	{
+		if (node->out == 1 && ((t_parser *)(aux->next->content))->in == 0)
+			((t_parser *)(aux->next->content))->out = d->fd[0];
+		builtins_executer(node, d);
+		exit (1);
+	}
+	else if (execve(node->route, node->full_cmd, env) == -1)
 		msg_error_pipes("Exec error\n");
 }
 
-void	exec_route_pipes(t_data *data, t_parser *node, char **env)
+void	exec_route_pipes(t_data *data, t_parser *node, char **env, t_list *aux)
 {
 	pid_t		pid;
-	t_list		*aux;
 
-	aux = data->nodes;
-	while (aux)
+	if (pipe(data->fd) == -1)
+		msg_error("Pipe error\n");
+	pid = fork();
+	if (pid == -1)
 	{
-		node = ((t_parser *)aux->content);
-		if (pipe(data->fd) == -1)
-			msg_error("Pipe error\n");
-		pid = fork();
-		if (pid == -1)
-		{
-			close(data->fd[0]);
-			close(data->fd[1]);
-			msg_error("Fork error\n");
-		}
-		if (pid == 0)
-		{
-			if (aux->next != NULL)
-				exec_route_pipes_child (data, node, env);
-			else
-				exec_route_pipes_final (data, node, env);
-		}
-		else
-		{
-			if (aux->next && ((t_parser *)(aux->next->content))->in == 0)
-				((t_parser *)(aux->next->content))->in = data->fd[0];
-			else
-				close(data->fd[0]);
-			close (data->fd[1]);
-			waitpid(pid, NULL, 0);
-		}
-		aux = aux->next;
+		close(data->fd[0]);
+		close(data->fd[1]);
+		msg_error("Fork error\n");
 	}
+	if (pid == 0)
+	{
+		if (aux->next != NULL)
+			exec_route_pipes_child (data, node, env, aux);
+		else
+			exec_route_pipes_final (data, node, env);
+	}
+	if (aux->next && ((t_parser *)(aux->next->content))->in == 0)
+		((t_parser *)(aux->next->content))->in = data->fd[0];
+	else
+		close(data->fd[0]);
+	close (data->fd[1]);
+	waitpid(pid, NULL, 0);
 }

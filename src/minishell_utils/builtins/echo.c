@@ -6,38 +6,38 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:17:02 by alirola-          #+#    #+#             */
-/*   Updated: 2024/04/08 17:42:05 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:16:31 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	echo_print(char **s, int args)
+void	echo_print(char **s, int args, int fd)
 {
 	int	i;
 
 	i = 0;
 	while (s[args][i])
 	{
-		printf("%c", s[args][i]);
+		ft_printf(fd, "%c", s[args][i]);
 		if (s[args][i] == '\0')
 			break ;
 		i++;
 	}
 }
 
-void	echo_args_loop(char **s, int args)
+void	echo_args_loop(char **s, int args, int fd)
 {
 	while (s[args])
 	{
-		echo_print(s, args);
+		echo_print(s, args, fd);
 		if (s[args + 1] || s[args][0] == '\0')
-			printf(" ");
+			ft_printf(fd, " ");
 		args++;
 	}
 }
 
-void	echo_exe(char **s, int option)
+void	echo_exe(char **s, int option, int fd)
 {
 	int	args;
 
@@ -51,14 +51,14 @@ void	echo_exe(char **s, int option)
 		{
 			option = 1;
 			args = 2;
-			echo_args_loop(s, args);
+			echo_args_loop(s, args, fd);
 		}
 		else
 		{
 			args = 1;
-			echo_args_loop(s, args);
+			echo_args_loop(s, args, fd);
 		}
 	}
 	if (option == 0)
-		printf("\n");
+		ft_printf(fd, "\n");
 }

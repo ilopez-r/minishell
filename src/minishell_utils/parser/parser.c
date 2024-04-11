@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:55:19 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/08 11:59:32 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:30:27 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_parser_final(t_data *d, int *i, int *j, t_parser **n)
 		(*n)->in = open(d->in, O_RDONLY);
 		free(d->in);
 		if ((*n)->in == -1)
-			return (close((*n)->in), printf ("error: No such file or directory\n"), 1);
+			return (close((*n)->in), printf ("no such file or directory\n"), 1);
 		while (d->cmds[*i][*j] == ' ')
 			(*j)++;
 	}

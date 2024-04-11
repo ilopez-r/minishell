@@ -19,6 +19,7 @@ static void	continue_unset(t_env *del)
 		free(del->content);
 	free(del);
 	del = NULL;
+	//g_status = 0;
 }
 
 void	unset_exe(t_data *data, char *name)
@@ -41,7 +42,6 @@ void	unset_exe(t_data *data, char *name)
 			else
 				data->env = aux->next;
 			continue_unset(del);
-			//g_status = 0;
 			return ;
 		}
 		prev = aux;

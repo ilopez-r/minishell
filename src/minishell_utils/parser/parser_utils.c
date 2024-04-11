@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismael <ismael@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:51:56 by ismael            #+#    #+#             */
-/*   Updated: 2024/04/07 20:12:06 by ismael           ###   ########.fr       */
+/*   Updated: 2024/04/11 12:15:13 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	here_doc(t_data *data, t_parser **n, char *line)
-{
-	(*n)->in = open("here_doc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if ((*n)->in == -1)
-		return ;
-	while (1)
-	{
-		write(1, "heredoc> ", 9);
-		line = get_next_line(data->dup_stdin);
-		if (!line)
-			msg_error("Get_next_line error");
-		if (!ft_strncmp(data->in, line, ft_strlen(data->in)))
-		{
-			free(line);
-			close (data->dup_stdin);
-			break ;
-		}
-		ft_putstr_fd(line, (*n)->in);
-		free(line);
-	}
-	close((*n)->in);
-	(*n)->in = open("here_doc.tmp", O_RDONLY);
-	data->dup_stdin = dup(STDIN_FILENO);
-	if ((*n)->in == -1)
-		msg_error("Here_doc open file1 error");
-}
 
 int	ft_token_final_2(t_data *d, int *i, int *j, t_parser **n)
 {
@@ -50,7 +23,7 @@ int	ft_token_final_2(t_data *d, int *i, int *j, t_parser **n)
 	if (d->f_append == 1 && d->f_token == 2)
 		(*n)->out = open(d->out, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if ((*n)->in == -1 || (*n)->out == -1)
-		return (ft_printf("error: open infile or outfile\n"), 1);
+		return (printf("error: open infile or outfile\n"), 1);
 	if (d->f_token == 1)
 		free(d->in);
 	if (d->f_token == 2)
