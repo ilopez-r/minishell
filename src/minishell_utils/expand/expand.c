@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 15:08:33 by alirola-          #+#    #+#             */
-/*   Updated: 2024/04/16 12:22:17 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:20:44 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*get_env_content(t_data *d, char *s)
 {
 	char	*status;
 	t_env	*aux;
-	char	**ctnt;
+	char	*ctnt;
 
 	aux = d->env;
 	if (ft_strncmp(s, "?", 1) == EXIT_SUCCESS)
@@ -28,8 +28,8 @@ static char	*get_env_content(t_data *d, char *s)
 	{
 		if (ft_strncmp(aux->name, s, ft_strlen(aux->name)) == EXIT_SUCCESS)
 		{
-			ctnt = ft_split(aux->content, '=');
-			return (ft_strdup(ctnt[0]));
+			ctnt = ft_substr(aux->content, 1, ft_strlen(aux->content) - 1);
+			return (ctnt);
 		}
 		aux = aux->next;
 	}
@@ -63,8 +63,39 @@ static void	expand_1(t_data *d, int *i, int *flag, char **expand)
 	}
 }
 
+void	expand_continue(t_data *d, int *i, int *flag, char **exp)
+{
+	if (!*flag && d->cmds[d->i][d->j] != '~')
+	{
+		*i = d->j;
+		while ((d->cmds[d->i][d->j] != '$' || *flag)
+			&& d->cmds[d->i][d->j] && d->cmds[d->i][d->j] != '~')
+		{
+			if (d->cmds[d->i][d->j] == '\'')
+				*flag = !*flag;
+			d->j++;
+		}
+		d->aux = ft_substr(d->cmds[d->i], *i, d->j - *i);
+		*exp = gnl_ft_strjoin(*exp, d->aux);
+	}
+	else
+	{
+		*i = d->j;
+		while ((d->cmds[d->i][d->j] != '$' || *flag)
+			&& d->cmds[d->i][d->j] && ++(d->j))
+		{
+			if (d->cmds[d->i][d->j] == '\'')
+				*flag = !*flag;
+		}
+		d->aux = ft_substr(d->cmds[d->i], *i, d->j - *i);
+		*exp = gnl_ft_strjoin(*exp, d->aux);
+	}
+}
+
 static void	expand_2(t_data *d, int *i, int *flag, char **exp)
 {
+	char	*cont;
+
 	while ((d->cmds[d->i][d->j] != '$' || *flag) && d->cmds[d->i][d->j])
 	{
 		if ((!*flag && d->cmds[d->i][d->j] == '~')
@@ -74,20 +105,19 @@ static void	expand_2(t_data *d, int *i, int *flag, char **exp)
 			|| (d->cmds[d->i][d->j + 1] == '/')))
 		{
 			if (d->cmds[d->i][d->j] == '\'')
-				*flag = !*flag;
-			*exp = gnl_ft_strjoin(*exp, get_env_content(d, "HOME"));
+				*flag = !(*flag);
+			cont = get_env_content(d, "HOME");
+			*exp = gnl_ft_strjoin(*exp, cont);
+			free(cont);
 			d->j++;
 		}
-		else if (!*flag && d->cmds[d->i][d->j] != '~')
+		else
+			expand_continue(d, i, flag, exp);
+		if (d->aux != NULL)
 		{
-			*i = d->j;
-			while ((d->cmds[d->i][d->j] != '$' || *flag)
-				&& d->cmds[d->i][d->j] && d->cmds[d->i][d->j] != '~')
-				d->j++;
-			d->aux = ft_substr(d->cmds[d->i], *i, d->j - *i);
-			*exp = gnl_ft_strjoin(*exp, d->aux);
+			free(d->aux);
+			d->aux = NULL;
 		}
-		free (d->aux);
 	}
 }
 

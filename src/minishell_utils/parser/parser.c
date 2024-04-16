@@ -6,7 +6,7 @@
 /*   By: ilopez-r <ilopez-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:55:19 by ilopez-r          #+#    #+#             */
-/*   Updated: 2024/04/15 18:29:11 by ilopez-r         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:23:21 by ilopez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,35 @@ int	ft_parser_final(t_data *d, int *i, int *j, t_parser **n)
 	return (EXIT_SUCCESS);
 }
 
+int	ft_command_continue(t_data *d, int *i, t_parser **n)
+{
+	d->b = 0;
+	d->str = ft_calloc ((d->len) + 1, sizeof(char));
+	while (d->cmds[*i][d->a] != '<' && d->cmds[*i][d->a] != '>'
+		&& d->cmds[*i][d->a] != '\0')
+	{
+		d->str[d->b] = d->cmds[*i][d->a];
+		(d->a)++;
+		(d->b)++;
+		if (d->cmds[*i][d->a] == d->q)
+		{
+			d->str[d->b] = d->cmds[*i][d->a];
+			(d->a)++;
+			(d->b)++;
+			while (d->cmds[*i][d->a] != d->q)
+			{
+				d->str[d->b] = d->cmds[*i][d->a];
+				(d->a)++;
+				(d->b)++;
+			}
+		}
+	}
+	(*n)->full_cmd = ft_split_words(d, d->str, ' ', -1);
+	if (!(*n)->full_cmd)
+		return (free(d->str), d->str = NULL, EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 int	ft_command(t_data *d, int *i, int *j, t_parser **n)
 {
 	if (d->cmds[*i][*j] != ' ' && d->cmds[*i][*j] != '<'
@@ -47,24 +76,21 @@ int	ft_command(t_data *d, int *i, int *j, t_parser **n)
 	{
 		d->len = 0;
 		d->a = *j;
-		d->b = 0;
 		while (d->cmds[*i][*j] != '<' && d->cmds[*i][*j] != '>'
 			&& d->cmds[*i][*j] != '\0')
 		{
+			if (d->cmds[*i][*j] == '\'' || d->cmds[*i][*j] == '\"')
+			{
+				d->q = d->cmds[*i][*j];
+				(d->len)++;
+				while (d->cmds[*i][++(*j)] != d->q)
+					(d->len)++;
+			}
 			(d->len)++;
 			(*j)++;
 		}
-		d->str = ft_calloc ((d->len) + 1, sizeof(char));
-		while (d->cmds[*i][d->a] != '<' && d->cmds[*i][d->a] != '>'
-			&& d->cmds[*i][d->a] != '\0')
-		{
-			d->str[d->b] = d->cmds[*i][d->a];
-			(d->a)++;
-			(d->b)++;
-		}
-		(*n)->full_cmd = ft_split_words(d, d->str, ' ', -1);
-		if (!(*n)->full_cmd)
-			return (free(d->str), d->str = NULL, EXIT_FAILURE);
+		if (ft_command_continue (d, i, n) == 1)
+			return (EXIT_FAILURE);
 	}
 	return (free(d->str), d->str = NULL, EXIT_SUCCESS);
 }
