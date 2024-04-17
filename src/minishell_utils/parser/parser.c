@@ -47,9 +47,6 @@ int	ft_command_continue(t_data *d, int *i, t_parser **n)
 	while (d->cmds[*i][d->a] != '<' && d->cmds[*i][d->a] != '>'
 		&& d->cmds[*i][d->a] != '\0')
 	{
-		d->str[d->b] = d->cmds[*i][d->a];
-		(d->a)++;
-		(d->b)++;
 		if (d->cmds[*i][d->a] == d->q)
 		{
 			d->str[d->b] = d->cmds[*i][d->a];
@@ -62,6 +59,9 @@ int	ft_command_continue(t_data *d, int *i, t_parser **n)
 				(d->b)++;
 			}
 		}
+		d->str[d->b] = d->cmds[*i][d->a];
+		(d->a)++;
+		(d->b)++;
 	}
 	(*n)->full_cmd = ft_split_words(d, d->str, ' ', -1);
 	if (!(*n)->full_cmd)
